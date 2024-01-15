@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import 'regenerator-runtime/runtime';
+import Container from '@/layouts/Container';
+import Sidebar from '@/layouts/Sidebar';
+import Main from '@/layouts/Main';
+import Aside from '@/components/Aside';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +21,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Container>
+          <Sidebar>
+            <Aside />
+          </Sidebar>
+          <Main>{children}</Main>
+        </Container>
+      </body>
     </html>
   );
 }

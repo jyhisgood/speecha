@@ -1,3 +1,3 @@
-export default function Home() {
-  return <main>Nextjs</main>;
+export default async function Home() {
+  return <main className="">Home</main>;
 }
