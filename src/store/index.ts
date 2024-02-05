@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { TreeDataNode } from 'antd';
+import type { Post } from '@prisma/client';
 
 interface AppState {
   workspaces: TreeDataNode[] | [];
