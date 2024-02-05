@@ -1,7 +1,7 @@
 const Container = ({ children }: React.PropsWithChildren) => {
   return (
     <div className="bg-zinc-300">
-      <div className="p-3 flex flex-row">{children}</div>
+      <div className="flex flex-row">{children}</div>
     </div>
   );
 };

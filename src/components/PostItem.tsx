@@ -8,7 +8,11 @@ const PostItem = ({ title, id }: Post.TitleWithId) => {
   const goToPage = () => {
     router.push(`/${id}`);
   };
-  return <div onClick={goToPage}>{title}</div>;
+  return (
+    <div className="truncate pr-3" onClick={goToPage}>
+      {title}
+    </div>
+  );
 };
 
 export default PostItem;

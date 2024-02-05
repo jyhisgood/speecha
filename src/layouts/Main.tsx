@@ -1,7 +1,5 @@
 const Main = ({ children }: React.PropsWithChildren) => {
-  return (
-    <div className="bg-white w-screen flex rounded-md ml-3">{children}</div>
-  );
+  return <div className="bg-white w-screen rounded-md">{children}</div>;
 };
 
 export default Main;

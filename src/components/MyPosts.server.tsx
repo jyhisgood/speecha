@@ -8,7 +8,7 @@ const MyPosts = async () => {
   });
 
   return (
-    <div className="h-[90%] overflow-y-scroll">
+    <div className="scroll-sidebar h-[calc(100%-30px)] overflow-y-scroll">
       {titles.map((item) => (
         <PostItem {...item} />
       ))}

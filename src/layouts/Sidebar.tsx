@@ -3,12 +3,12 @@ import UploadDirectory from '@/components/UploadDirectory';
 
 const Sidebar = ({ children }: React.PropsWithChildren) => {
   return (
-    <div className="h-screen min-w-[330px] relative">
+    <div className="h-screen pl-4 pt-4 w-[400px] relative flex flex-col gap-3">
       {children}
       <MyPosts />
-      <div className="absolute bottom-2 left-2">
+      {/* <div className="absolute ottom-2 left-2">
         <UploadDirectory />
-      </div>
+      </div> */}
     </div>
   );
 };
