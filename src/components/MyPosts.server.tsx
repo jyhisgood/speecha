@@ -1,15 +1,32 @@
-import React, { PropsWithChildren } from 'react';
-import prisma from '@/lib/prisma';
+'use client';
+
 import PostItem from './PostItem';
+import { TitleWithId } from '@/types/post';
+import { Tree } from 'antd';
+import { FiFilePlus, FiFolderPlus } from 'react-icons/fi';
+import useWorkspace from '@/store';
 
-const MyPosts = async () => {
-  const titles = await prisma.post.findMany({
-    select: { id: true, title: true },
-  });
+export const SideBarTopMenu = () => {
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      <button className="bg-black/10 py-3 rounded-lg flex justify-center items-center">
+        <FiFilePlus size={18} />
+      </button>
+      <button className="bg-black/10 py-3 rounded-lg flex justify-center items-center">
+        <FiFolderPlus size={18} />
+      </button>
+    </div>
+  );
+};
 
+type Props = { postList: TitleWithId[] };
+
+const MyPosts = ({ postList }: Props) => {
+  const { workspaces } = useWorkspace();
   return (
     <div className="scroll-sidebar h-[calc(100%-30px)] overflow-y-scroll">
-      {titles.map((item) => (
+      <Tree treeData={workspaces} />
+      {postList.map((item) => (
         <PostItem {...item} />
       ))}
     </div>
