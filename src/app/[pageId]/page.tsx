@@ -1,6 +1,6 @@
 import Preview from '@/components/post/Preview';
 import prisma from '@/lib/prisma';
-import { NextPage, NextPageContext } from 'next';
+import { PostSchema } from '@/types';
 
 interface PageProps {
   params: { pageId: number };
@@ -9,7 +9,9 @@ interface PageProps {
 
 const Page = async ({ params: { pageId } }: PageProps) => {
   try {
-    const page = await prisma.post.findFirst({ where: { id: Number(pageId) } });
+    const page = (await prisma.post.findFirst({
+      where: { id: Number(pageId) },
+    })) as PostSchema;
     return <Preview {...page} />;
   } catch (error) {
     console.log(error);
