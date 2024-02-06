@@ -27,7 +27,7 @@ const MyPosts = ({ postList }: Props) => {
     <div className="scroll-sidebar h-[calc(100%-30px)] overflow-y-scroll">
       <Tree treeData={workspaces} />
       {postList.map((item) => (
-        <PostItem {...item} />
+        <PostItem key={item.id} {...item} />
       ))}
     </div>
   );

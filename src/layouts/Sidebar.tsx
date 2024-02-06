@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma';
 
 const Sidebar = async () => {
   const postList = await prisma.post.findMany({
-    select: { id: true, title: true },
+    select: { id: true, title: true, path: true },
   });
   const onFileUpload: UploadProps['onSuccess'] = async (title, content) => {
     'use server';
