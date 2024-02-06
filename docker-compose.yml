@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: . #if your Dockerfile is not at the same level change the path here (./frontend)
+      target: dev
+    restart: always
+    command: yarn dev
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@db:5432/speecha
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - 3000:3000
+  db:
+    image: postgres:13
+    restart: always
+    container_name: db
+    volumes:
+      - './postgresql/data:/var/lib/postgresql/data' # 도커 컨테이너가 종료되면 데이터베이스도 사라져 버린다. 컨테이너가 종료돼도 데이터를 보존하기 위해 postgresql/data 폴더에 데이터베이스 데이터들을 저장한다.
+      - './init/:/docker-entrypoint-initdb.d/' # init.sql 파일에 데이터베이스 초기 설정값을 작성하면 도커 컴포즈 시에 자동적으로 테이블을 만들어준다.
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'speecha'
+      TZ: 'Asia/Seoul'
