@@ -1,10 +1,9 @@
 'use client';
 
-import PostItem from './PostItem';
-import { TitleWithId } from '@/types/post';
-import { Tree } from 'antd';
+import { TreeList } from '@/types/post';
 import { FiFilePlus, FiFolderPlus } from 'react-icons/fi';
-import useWorkspace from '@/store';
+import { buildTreeAsPaths } from '@/lib/utils';
+import Tree from './Tree';
 
 export const SideBarTopMenu = () => {
   return (
@@ -19,16 +18,15 @@ export const SideBarTopMenu = () => {
   );
 };
 
-type Props = { postList: TitleWithId[] };
+type Props = { postList: TreeList[] };
 
 const MyPosts = ({ postList }: Props) => {
-  const { workspaces } = useWorkspace();
+  const treeData = buildTreeAsPaths(
+    postList.map((post) => `${post.path}/${post.title}`)
+  );
   return (
     <div className="scroll-sidebar h-[calc(100%-30px)] overflow-y-scroll">
-      <Tree treeData={workspaces} />
-      {postList.map((item) => (
-        <PostItem key={item.id} {...item} />
-      ))}
+      <Tree data={treeData} />
     </div>
   );
 };

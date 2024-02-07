@@ -1,4 +1,4 @@
 import type { Post } from '@prisma/client';
 
-export type TitleWithId = Pick<Post, 'id' | 'title'>;
+export type TreeList = Pick<Post, 'id' | 'title' | 'path'>;
 export type Partial = Partial<Post>;
