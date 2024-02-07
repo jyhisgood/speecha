@@ -1,2 +1,2 @@
-export type { default as Post } from './post.d';
-export type { Post as PostSchema } from '@prisma/client';
+export type { default as PostFile } from './postFile';
+export type { PostFile as PostFileSchema } from '@prisma/client';

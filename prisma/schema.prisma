@@ -10,10 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement()) @map("_id") @db.Integer
+model PostFile {
+  id        Int         @id @default(autoincrement())
   title     String
   content   String
-  path      String?
-  createdAt DateTime @default(now()) @db.Timestamp(6)
+  folder    PostFolder? @relation(fields: [folderId], references: [id])
+  folderId  Int?
+  createdAt DateTime    @default(now()) @db.Timestamp(6)
+
+  @@unique([title, folderId])
+}
+
+model PostFolder {
+  id        Int        @id @default(autoincrement())
+  path      String     @unique
+  createdAt DateTime   @default(now()) @db.Timestamp(6)
+  postFiles PostFile[]
 }

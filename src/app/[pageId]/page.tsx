@@ -1,6 +1,6 @@
 import Preview from '@/components/post/Preview';
 import prisma from '@/lib/prisma';
-import { PostSchema } from '@/types';
+import { PostFileSchema } from '@/types';
 
 interface PageProps {
   params: { pageId: number };
@@ -9,9 +9,9 @@ interface PageProps {
 
 const Page = async ({ params: { pageId } }: PageProps) => {
   try {
-    const page = (await prisma.post.findFirst({
+    const page = (await prisma.postFile.findFirst({
       where: { id: Number(pageId) },
-    })) as PostSchema;
+    })) as PostFileSchema;
     return <Preview {...page} />;
   } catch (error) {
     console.log(error);

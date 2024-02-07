@@ -1,19 +1,53 @@
 import MyPosts, { SideBarTopMenu } from '@/components/MyPosts.server';
 import Upload from '@/components/Upload';
 import type { UploadProps } from '@/components/Upload';
+import { onSuccessReturn } from '@/components/Upload/types';
+import { extractFolders } from '@/components/Upload/utils';
 
 import prisma from '@/lib/prisma';
+import { PostFile } from '@/types';
 
 const Sidebar = async () => {
-  const postList = await prisma.post.findMany({
-    select: { id: true, title: true, path: true },
+  const postList = await prisma.postFile.findMany({
+    select: { id: true },
   });
-  const onFileUpload: UploadProps['onSuccess'] = async (title, content) => {
+
+  const onFileCreateMany: UploadProps['onSuccess'] = async (
+    data,
+    uploadType
+  ) => {
     'use server';
-    try {
-      await prisma.post.create({ data: { title, content } });
-    } catch (error) {
-      console.log(error);
+    if (uploadType === 'folders') {
+      const folderData = extractFolders(data) as onSuccessReturn[];
+      await Promise.all(
+        folderData.map(async ({ path }) => {
+          const filesInFolder: PostFile.CreatePayload[] = data
+            .filter((item) => item.path === path)
+            .map((item) => ({
+              title: item.title,
+              content: item.content,
+            }));
+
+          return await prisma.postFolder.upsert({
+            where: { path: path || '' },
+            update: {},
+            create: {
+              path: path || '',
+              postFiles: {
+                create: filesInFolder,
+              },
+            },
+          });
+        })
+      );
+    } else {
+      await Promise.all(
+        data.map(async (item) => {
+          return await prisma.postFile.create({
+            data: { title: item.title, content: item.content },
+          });
+        })
+      );
     }
   };
 
@@ -22,8 +56,8 @@ const Sidebar = async () => {
       <SideBarTopMenu />
       <MyPosts postList={postList} />
       <div className="absolute bottom-2 right-2 flex">
-        <Upload.File onSuccess={onFileUpload} />
-        <Upload.Folder onSuccess={onFileUpload} />
+        <Upload.File onSuccess={onFileCreateMany} />
+        <Upload.Folder onSuccess={onFileCreateMany} />
       </div>
     </div>
   );

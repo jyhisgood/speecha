@@ -1,6 +1,6 @@
 'use client';
 
-import { TreeList } from '@/types/post';
+import { TreeList } from '@/types/postFile';
 import { FiFilePlus, FiFolderPlus } from 'react-icons/fi';
 import { buildTreeAsPaths } from '@/lib/utils';
 import Tree from './Tree';
@@ -21,12 +21,12 @@ export const SideBarTopMenu = () => {
 type Props = { postList: TreeList[] };
 
 const MyPosts = ({ postList }: Props) => {
-  const treeData = buildTreeAsPaths(
-    postList.map((post) => `${post.path}/${post.title}`)
-  );
+  const paths = postList.map((post) => post.fullPath);
+  // const treeData = buildTreeAsPaths(paths);
+
   return (
     <div className="scroll-sidebar h-[calc(100%-30px)] overflow-y-scroll">
-      <Tree data={treeData} />
+      {/* <Tree data={treeData} /> */}
     </div>
   );
 };
