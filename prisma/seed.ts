@@ -8,7 +8,7 @@ const LIST_COUNT = { MIN: 3, MAX: 8 };
 const POST_COUNT = 100;
 
 async function main() {
-  const deleteAllPosts = await prisma.post.deleteMany();
+  const deleteAllPosts = await prisma.postFile.deleteMany();
   console.log('Deleted all of posts', deleteAllPosts);
   const postPromise = Array(POST_COUNT)
     .fill(null)
@@ -74,7 +74,7 @@ async function main() {
         }, '');
       const content = `\n${heading}${dummyContents}${line}`;
 
-      return prisma.post.create({
+      return prisma.postFile.create({
         data: {
           title,
           content,
